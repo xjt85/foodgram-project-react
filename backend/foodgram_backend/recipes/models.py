@@ -7,7 +7,8 @@ User = get_user_model()
 
 class Ingredient(models.Model):
     name = models.CharField(max_length=200, verbose_name="Название")
-    measurement_unit = models.CharField(max_length=200, verbose_name='Единица измерения')
+    measurement_unit = models.CharField(max_length=200,
+                                        verbose_name='Единица измерения')
 
     class Meta:
         ordering = ['-id']
@@ -34,8 +35,9 @@ class Tag(models.Model):
     ]
     name = models.CharField(max_length=200, unique=True,
                             verbose_name='Название тега')
-    color_code = models.CharField(max_length=7, unique=True, choices=COLOR_CHOICES,
-                             verbose_name='Цвет в HEX-формате')
+    color_code = models.CharField(max_length=7, unique=True,
+                                  choices=COLOR_CHOICES,
+                                  verbose_name='Цвет в HEX-формате')
     slug = models.SlugField(max_length=200, unique=True,
                             verbose_name='Уникальный слаг')
 
@@ -81,7 +83,6 @@ class Recipe(models.Model):
         verbose_name = 'Рецепт'
         verbose_name_plural = 'Рецепты'
 
-# --------------------------- проверить ------------------------------------
 
 class Favorite(models.Model):
     user = models.ForeignKey(
@@ -104,7 +105,7 @@ class Favorite(models.Model):
             models.UniqueConstraint(fields=['user', 'recipe'],
                                     name='unique favorite recipe')
         ]
-# ====================== ПРОВЕРИТЬ =======================================
+
 
 class Cart(models.Model):
     user = models.ForeignKey(
