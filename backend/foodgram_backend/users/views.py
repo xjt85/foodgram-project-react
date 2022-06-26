@@ -22,7 +22,7 @@ class CustomUserViewSet(UserViewSet):
 
         if user == author:
             return Response({
-                'errors': 'Вы не можете подписываться на самого себя'
+                'errors': 'Вы не можете подписаться на самого себя'
             }, status=status.HTTP_400_BAD_REQUEST)
         if Follow.objects.filter(user=user, author=author).exists():
             return Response({
@@ -41,7 +41,7 @@ class CustomUserViewSet(UserViewSet):
         author = get_object_or_404(User, id=id)
         if user == author:
             return Response({
-                'errors': 'Вы не можете отписываться от самого себя'
+                'errors': 'Вы не можете отписаться от самого себя'
             }, status=status.HTTP_400_BAD_REQUEST)
         follow = Follow.objects.filter(user=user, author=author)
         if follow.exists():
