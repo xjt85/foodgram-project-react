@@ -23,7 +23,9 @@ git clone https://github.com/xjt85/foodgram-project-react
 ```
 ## Для работы с удаленным сервером (на Ubuntu):
 * Выполните вход на свой удаленный сервер
-
+```
+ssh <login>@<IP>
+```
 * Установите docker на сервер:
 ```
 sudo apt install docker.io 
