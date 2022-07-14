@@ -2,15 +2,13 @@ import os
 
 from decouple import config
 
-REVIEW = 1
+REVIEW = 0
 
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = config('SECRET_KEY', default='string_from_.env')
-
-DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
