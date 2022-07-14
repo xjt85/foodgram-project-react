@@ -1,12 +1,14 @@
 import os
 
+from pathlib import Path
 from decouple import config
 
-REVIEW = 0
+REVIEW = 1
 
-DEBUG = config('DEBUG', default=False, cast=bool)
+DEBUG = False
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY', default='string_from_.env')
 
@@ -131,6 +133,7 @@ DJOSER = {
 }
 
 if REVIEW:
+    DEBUG = True
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
