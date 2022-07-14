@@ -26,6 +26,34 @@ jobs:
       run: |
         python -m flake8 backend
 
+  copy_infra_to_server:
+    name: Copy docker-compose.yml and nginx.conf
+    runs-on: ubuntu-latest
+    needs: tests
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Create projects directory
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USER }}
+        key: ${{ secrets.SSH_KEY }}
+        passphrase: ${{ secrets.PASSPHRASE }}
+        script: |
+          sudo rm -rf foodgram/
+          mkdir -p foodgram/
+
+    - name: Copy files
+      uses: garygrossgarten/github-action-scp@release
+      with:
+        local: infra/
+        remote: /home/${{ secrets.USER }}/foodgram/
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USER }}
+        privateKey: ${{ secrets.SSH_KEY }}
+        passphrase: ${{ secrets.PASSPHRASE }}
+
   build_and_push_to_docker_hub:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
