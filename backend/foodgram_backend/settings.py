@@ -5,7 +5,7 @@ from decouple import config
 
 REVIEW = 1
 
-DEBUG = False
+DEBUG = True
 
 # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = Path(__file__).resolve().parent.parent
