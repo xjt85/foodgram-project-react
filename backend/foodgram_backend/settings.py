@@ -1,16 +1,23 @@
 import os
 
 from pathlib import Path
-from decouple import config
+from decouple import Csv, config
 
 REVIEW = True
 
 # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = config('SECRET_KEY', default='string_from_.env')
+SECRET_KEY = config('SECRET_KEY', default='string_from_.env', )
 
 ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*', cast=Csv())
+
+CSRF_TRUSTED_ORIGINS = config(
+    'CSRF_TRUSTED_ORIGINS',
+    default='http://localhost http://127.0.0.1',
+    cast=Csv()
+)
 
 INSTALLED_APPS = [
     'django.contrib.admin',
