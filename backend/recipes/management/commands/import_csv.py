@@ -7,7 +7,7 @@ from recipes.models import Ingredient
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        data_reader = csv.reader(open('../data/ingredients.csv'), delimiter=',', quotechar='"')
+        data_reader = csv.reader(open('./ingredients.csv'), delimiter=',', quotechar='"')
         for row in data_reader:
             ingr = Ingredient()
             ingr.name = row[0]

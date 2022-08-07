@@ -20,12 +20,14 @@ python manage.py makemigrations
 
 echo "Making migrations."
 python manage.py migrate
+python manage.py import_csv
 
 # echo "Loading demo data from ingredients.json"
 # python manage.py loaddata -i ingredients.json
 
 echo "Collecting static files."
 python manage.py collectstatic --noinput
+
 
 # echo "Compressing static files."
 # python manage.py compress
