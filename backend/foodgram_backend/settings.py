@@ -3,7 +3,7 @@ import os
 from pathlib import Path
 from decouple import Csv, config
 
-REVIEW = False
+REVIEW = True
 
 # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -67,16 +67,26 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'foodgram_backend.wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': config('DB_ENGINE', default='django.db.backends.postgresql'),
-        'NAME': config('DB_NAME', default='postgres'),
-        'USER': config('POSTGRES_USER', default='postgres'),
-        'PASSWORD': config('POSTGRES_PASSWORD', default='password'),
-        'HOST': config('DB_HOST', default='db'),
-        'PORT': config('DB_PORT', default=5432, cast=int),
+if REVIEW:
+    DEBUG = True
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+        }
     }
-}
+else:
+    DEBUG = False
+    DATABASES = {
+        'default': {
+            'ENGINE': config('DB_ENGINE', default='django.db.backends.postgresql'),
+            'NAME': config('DB_NAME', default='postgres'),
+            'USER': config('POSTGRES_USER', default='postgres'),
+            'PASSWORD': config('POSTGRES_PASSWORD', default='password'),
+            'HOST': config('DB_HOST', default='db'),
+            'PORT': config('DB_PORT', default=5432, cast=int),
+        }
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -136,12 +146,3 @@ DJOSER = {
         'current_user': 'users.serializers.CustomUserSerializer',
     }
 }
-
-if REVIEW:
-    DEBUG = True
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
-        }
-    }
