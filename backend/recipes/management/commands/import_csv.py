@@ -7,10 +7,11 @@ from recipes.models import Ingredient
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        data_reader = csv.reader(open('./ingredients.csv'), delimiter=',', quotechar='"')
-        for row in data_reader:
-            ingr = Ingredient()
-            ingr.name = row[0]
-            ingr.measurement_unit = row[1]
-            ingr.save()
+        with open('./ingredients.csv', 'r', encoding='utf-8') as csv_file:
+            data_reader = csv.reader(csv_file)
+            for row in data_reader:
+                ingr = Ingredient()
+                ingr.name = row[0]
+                ingr.measurement_unit = row[1]
+                ingr.save()
         self.stdout.write('Created.')

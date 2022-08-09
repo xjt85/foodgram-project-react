@@ -88,6 +88,8 @@ else:
         }
     }
 
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 5000
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
