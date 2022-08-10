@@ -1,9 +1,8 @@
 from django.shortcuts import get_object_or_404
 from drf_extra_fields.fields import Base64ImageField
+from recipes.models import Ingredient, IngredientAmount, Recipe, Tag
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
-
-from recipes.models import Ingredient, IngredientAmount, Recipe, Tag
 from users.models import Follow
 from users.serializers import CustomUserSerializer
 
@@ -72,7 +71,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         ingredients = self.initial_data.get('ingredients')
         if not ingredients:
             raise serializers.ValidationError({
-                'ingredients': 'Нужен хоть один ингридиент для рецепта'})
+                'ingredients': 'Нужен хоть один ингредиент для рецепта'})
         ingredient_list = []
         for ingredient_item in ingredients:
             ingredient = get_object_or_404(Ingredient,

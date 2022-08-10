@@ -1,5 +1,6 @@
 from django.contrib import admin
-
+from django.contrib.admin import display
+from django.db.models import Count, Sum
 from recipes.models import Cart, Favorite, Ingredient, Recipe, Tag
 
 
@@ -18,6 +19,22 @@ class RecipeAdmin(admin.ModelAdmin):
 
     def count_favorites(self, obj):
         return obj.favorites.count()
+
+
+class CartAdmin(admin.ModelAdmin):
+    list_display = ('user', 'count_ingredients',)
+    readonly_fields = ('count_ingredients',)
+
+    class Meta:
+        verbose_name = 'Список покупок'
+        verbose_name_plural = 'Списки покупок'
+
+    @display(description='Количество ингредиентов')
+    def count_ingredients(self, obj):
+        return (
+            obj.recipes.all().annotate(count_ingredients=Count('ingredients'))
+            .aggregate(total=Sum('count_ingredients'))['total']
+        )
 
 
 admin.site.register(Tag, TagAdmin)
