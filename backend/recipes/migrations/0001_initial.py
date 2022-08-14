@@ -86,7 +86,7 @@ class Migration(migrations.Migration):
                 ('text', models.TextField(verbose_name='Описание рецепта')),
                 ('cooking_time', models.PositiveSmallIntegerField(validators=[django.core.validators.MinValueValidator(1, message='Минимальное время приготовления - 1 минута')], verbose_name='Время приготовления')),
                 ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='recipes', to=settings.AUTH_USER_MODEL, verbose_name='Автор')),
-                ('ingredients', models.ManyToManyField(related_name='recipes', through='recipes.IngredientAmount', to='recipes.Ingredient', verbose_name='Ингридиенты')),
+                ('ingredients', models.ManyToManyField(related_name='recipes', through='recipes.IngredientAmount', to='recipes.Ingredient', verbose_name='Ингредиенты')),
                 ('tags', models.ManyToManyField(to='recipes.Tag', verbose_name='Теги')),
             ],
             options={

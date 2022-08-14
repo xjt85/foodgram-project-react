@@ -75,13 +75,13 @@ class Recipe(models.Model):
                 1, message='Минимальное время приготовления - 1 минута'),),
         verbose_name='Время приготовления')
 
-    def __str__(self):
-        return self.name
-
     class Meta:
         ordering = ['-id']
         verbose_name = 'Рецепт'
         verbose_name_plural = 'Рецепты'
+
+    def __str__(self):
+        return self.name
 
 
 class IngredientAmount(models.Model):

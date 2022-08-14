@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.admin import display
 from django.db.models import Count, Sum
+
 from recipes.models import Cart, Favorite, Ingredient, Recipe, Tag
 
 

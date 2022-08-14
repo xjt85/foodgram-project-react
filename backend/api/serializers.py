@@ -1,8 +1,9 @@
 from django.shortcuts import get_object_or_404
 from drf_extra_fields.fields import Base64ImageField
-from recipes.models import Ingredient, IngredientAmount, Recipe, Tag
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
+
+from recipes.models import Ingredient, IngredientAmount, Recipe, Tag
 from users.models import Follow
 from users.serializers import CustomUserSerializer
 
@@ -68,10 +69,15 @@ class RecipeSerializer(serializers.ModelSerializer):
         return Recipe.objects.filter(cart__user=user, id=obj.id).exists()
 
     def validate(self, data):
+        tags = self.initial_data.get('tags')
         ingredients = self.initial_data.get('ingredients')
+        if len(tags) == 0:
+            raise serializers.ValidationError('Рецепт не может быть без тегов!')
+        if len(tags) > len(set(tags)):
+            raise serializers.ValidationError('Теги не могут повторяться!')
         if not ingredients:
             raise serializers.ValidationError({
-                'ingredients': 'Нужен хоть один ингредиент для рецепта'})
+                'ingredients': 'Для рецепта необходим как минимум один ингредиент'})
         ingredient_list = []
         for ingredient_item in ingredients:
             ingredient = get_object_or_404(Ingredient,
@@ -115,10 +121,16 @@ class RecipeSerializer(serializers.ModelSerializer):
         instance.tags.clear()
         tags_data = self.initial_data.get('tags')
         instance.tags.set(tags_data)
-        IngredientAmount.objects.filter(recipe=instance).all().delete()
+        IngredientAmount.objects.filter(recipe=instance).delete()
         self.create_ingredients(validated_data.get('ingredients'), instance)
         instance.save()
         return instance
+
+    def to_representation(self, instance):
+        response = super(RecipeSerializer, self).to_representation(instance)
+        if instance.image:
+            response['image'] = instance.image.url
+        return response
 
 
 class CropRecipeSerializer(serializers.ModelSerializer):
