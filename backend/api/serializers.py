@@ -69,8 +69,9 @@ class RecipeSerializer(serializers.ModelSerializer):
         return Recipe.objects.filter(cart__user=user, id=obj.id).exists()
 
     def validate(self, data):
-        tags = self.initial_data.get('tags')
-        ingredients = self.initial_data.get('ingredients')
+        print(data)
+        tags = data.get('tags')
+        ingredients = data.get('ingredients')
         if len(tags) == 0:
             raise serializers.ValidationError('Рецепт не может быть без тегов!')
         if len(tags) > len(set(tags)):
