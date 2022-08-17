@@ -118,6 +118,8 @@ class RecipeSerializer(serializers.ModelSerializer):
                 amount=ingredient.get('amount'),
             )
 
+        #IngredientAmount.objects.bulk_create(component=component['component'],recipe=recipe, ingredient_id=ingredient.get('id'), amount=ingredient.get('amount')) for component in components
+
     def create(self, validated_data):
         image = validated_data.pop('image')
         ingredients_data = validated_data.pop('ingredients')
