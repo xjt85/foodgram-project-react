@@ -102,11 +102,11 @@ jobs:
           script: |
             cd foodgram/
 
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/foodgram_frontend
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/foodgram-frontend
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/foodgram-backend
             
             sudo docker-compose down -v
-            sudo docker-compose rm backend
+            sudo docker-compose rm infra_backend_1
 
             rm .env
             touch .env
