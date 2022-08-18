@@ -1,3 +1,5 @@
+from copy import copy
+from json import loads, dumps
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
@@ -127,12 +129,6 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
         ingredients_data = validated_data.pop("ingredients")
         self.create_ingredients(ingredients_data, instance)
         return super().update(instance, validated_data)
-
-    # def to_representation(self, instance):
-    #     repr = super().to_representation(instance)
-    #     tags_set = Tag.objects.filter(id__in=repr["tags"])
-    #     repr["tags"] = TagSerializer(tags_set, many=True).data
-    #     return repr
 
 
 class CropRecipeSerializer(serializers.ModelSerializer):

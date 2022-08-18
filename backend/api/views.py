@@ -76,7 +76,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             name = item[0]
             final_list[name] = {
                 'measurement_unit': item[1],
-                'amount': item[2]
+                'total': item[2]
             }
 
         pdfmetrics.registerFont(
@@ -91,7 +91,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         height = 750
 
         for i, (name, data) in enumerate(final_list.items(), 1):
-            page.drawString(75, height, (f'{i}) {name} - {data["amount"]} '
+            page.drawString(75, height, (f'{i}) {name} - {data["total"]} '
                                          f'{data["measurement_unit"]};'))
             height -= 25
 
