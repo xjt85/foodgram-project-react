@@ -1,7 +1,7 @@
 from copy import copy
 from json import loads, dumps
 from drf_extra_fields.fields import Base64ImageField
-from rest_framework import serializers
+from rest_framework import serializers, renderers
 from rest_framework.validators import UniqueTogetherValidator
 
 from recipes.models import Ingredient, IngredientAmount, Recipe, Tag
@@ -41,16 +41,25 @@ class IngredientAmountSerializer(serializers.ModelSerializer):
 
 class RecipeWriteSerializer(serializers.ModelSerializer):
     image = Base64ImageField()
-    tags = TagSerializer(read_only=True, many=True)
     author = CustomUserSerializer(read_only=True)
+    tags = serializers.PrimaryKeyRelatedField(
+        queryset=Tag.objects.all(),
+        many=True,
+        allow_empty=False
+    )
     ingredients = IngredientAmountSerializer(
         source='ingredientamount_set',
         many=True,
         read_only=True,
     )
 
-    is_favorited = serializers.SerializerMethodField()
-    is_in_shopping_cart = serializers.SerializerMethodField()
+    is_favorited = serializers.BooleanField(read_only=True)
+    is_in_shopping_cart = serializers.BooleanField(read_only=True)
+    
+    # tags = TagSerializer(read_only=True, many=True)
+
+    # is_favorited = serializers.SerializerMethodField()
+    # is_in_shopping_cart = serializers.SerializerMethodField()
 
     class Meta:
         model = Recipe
@@ -70,12 +79,14 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
             return False
         return Recipe.objects.filter(cart__user=user, id=obj.id).exists()
 
-    def to_internal_value(self, data):
-        return data
+    # def to_internal_value(self, data):
+    #     return data
 
     def validate(self, data):
-        # int_data = copy(data)  # Убрать перед Ревью
-        # print("data = ", loads(dumps(int_data)))  # Убрать перед Ревью
+        # json_render_for_our_data = renderers.JSONRenderer()
+        # data_in_json = json_render_for_our_data.render(data)
+        int_data = copy(data)  # Убрать перед Ревью
+        print("data = ", loads(dumps(int_data)))  # Убрать перед Ревью
 
         ingredients = data['ingredients']
         if not ingredients:
@@ -129,6 +140,17 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
         ingredients_data = validated_data.pop("ingredients")
         self.create_ingredients(ingredients_data, instance)
         return super().update(instance, validated_data)
+    
+    def to_representation(self, instance):
+        request = self.context.get('request')
+        context = {'request': request}
+        return RecipeReadSerializer(instance.recipe, context=context).data
+
+
+class RecipeReadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Recipe
+        fields = ('id', 'name', 'image', 'cooking_time')
 
 
 class CropRecipeSerializer(serializers.ModelSerializer):
