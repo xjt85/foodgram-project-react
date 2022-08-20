@@ -3,7 +3,7 @@ from pathlib import Path
 
 from decouple import Csv, config
 
-REVIEW = True
+REVIEW = False
 
 # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = Path(__file__).resolve().parent.parent
