@@ -18,7 +18,7 @@ services:
   backend:
     image: xjt85/foodgram-backend:latest
     restart: always
-    # command: bash -c ""
+    # command: bash -c "
     volumes:
       - static_value:/code/static/
       - media_value:/code/media/
