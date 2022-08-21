@@ -104,7 +104,7 @@ jobs:
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/foodgram-frontend:latest
             cd foodgram/
             
-            sudo docker-compose stop
+            sudo docker stop $(sudo docker ps -a -q)
             sudo docker-compose rm backend
             
             sudo rm .env
@@ -121,7 +121,11 @@ jobs:
             echo DB_HOST=${{ secrets.DB_HOST }} >> .env
             echo DB_PORT=${{ secrets.DB_PORT }} >> .env
 
-            sudo docker-compose up -d --build
+            docker-compose up -d
+
+            sudo docker-compose exec backend python manage.py makemifrations
+            sudo docker-compose exec backend python manage.py migrate
+            sudo docker-compose exec backend python manage.py collectstatic --noinput
 
   # telegram_message:
   #   name: Send telegram message

@@ -16,17 +16,17 @@ if [ "$POSTGRES_USER" = "postgres" ]; then
 fi
 '''
 # Запускаем миграции, загружаем фикстуры, собираем и сжимаем статику
-python manage.py makemigrations
+# python manage.py makemigrations
 
-echo "Making migrations."
-python manage.py migrate
+# echo "Making migrations."
+# python manage.py migrate
 # python manage.py import_csv
 
 # echo "Loading demo data from ingredients.json"
 # python manage.py loaddata -i ingredients.json
 
-echo "Collecting static files."
-python manage.py collectstatic --noinput
+# echo "Collecting static files."
+# python manage.py collectstatic --noinput
 
 
 # echo "Compressing static files."
