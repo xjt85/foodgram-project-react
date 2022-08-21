@@ -102,9 +102,10 @@ jobs:
           script: |
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/foodgram-backend:latest
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/foodgram-frontend:latest
+            
             cd foodgram/
             
-            sudo docker stop $(sudo docker ps -a -q)
+            sudo docker-compose stop
             sudo docker-compose rm backend
             
             sudo rm .env
@@ -121,7 +122,7 @@ jobs:
             echo DB_HOST=${{ secrets.DB_HOST }} >> .env
             echo DB_PORT=${{ secrets.DB_PORT }} >> .env
 
-            sudo docker-compose up -d
+            sudo docker-compose up -d --build
 
             sudo docker-compose exec -T backend python manage.py makemigrations --noinput
             sudo docker-compose exec -T backend python manage.py migrate --noinput
