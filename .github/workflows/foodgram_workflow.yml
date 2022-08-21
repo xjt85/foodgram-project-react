@@ -100,14 +100,15 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
           script: |
-            cd foodgram/
-            sudo docker-compose down -v
-
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/foodgram-backend:latest
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/foodgram-frontend:latest
+            cd foodgram/
             
-            rm .env
-            touch .env
+            sudo docker-compose stop
+            sudo docker-compose rm backend
+            
+            sudo rm .env
+            sudo touch .env
             
             echo REVIEW=False >> .env
             echo SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env
@@ -120,7 +121,7 @@ jobs:
             echo DB_HOST=${{ secrets.DB_HOST }} >> .env
             echo DB_PORT=${{ secrets.DB_PORT }} >> .env
 
-            sudo docker-compose up -d
+            sudo docker-compose up -d --build
 
   # telegram_message:
   #   name: Send telegram message
