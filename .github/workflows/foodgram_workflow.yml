@@ -100,18 +100,20 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
           script: |
+            cd foodgram/
+            
+            sudo docker-compose stop
+            sudo docker-compose rm foodgram_backend_1
+
+            sudo docker rmi ${{ secrets.DOCKER_USERNAME }}/foodgram-backend:latest
+            sudo docker rmi ${{ secrets.DOCKER_USERNAME }}/foodgram-frontend:latest
+            
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/foodgram-backend:latest
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/foodgram-frontend:latest
             
-            cd foodgram/
-            
-            # sudo docker-compose stop
-            # sudo docker-compose rm backend
-            
-            # sudo rm .env
+            sudo rm .env
             sudo touch .env
             
-            echo REVIEW=False >> .env
             echo SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env
             echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
             echo CSRF_TRUSTED_ORIGINS=${{ secrets.CSRF_TRUSTED_ORIGINS }} >> .env
@@ -121,17 +123,9 @@ jobs:
             echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env
             echo DB_HOST=${{ secrets.DB_HOST }} >> .env
             echo DB_PORT=${{ secrets.DB_PORT }} >> .env
-
-            sudo docker-compose stop
-            sudo docker rm foodgram_frontend_1
-            sudo docker rm foodgram_backend_1
-            sudo docker rmi ${{ secrets.DOCKER_USER }}/foodgram_front
-            sudo docker rmi ${{ secrets.DOCKER_USER }}/foodgram_back
-            sudo docker-compose up -d --build
-
-            # sudo docker-compose exec -T backend python manage.py makemigrations --noinput
-            # sudo docker-compose exec -T backend python manage.py migrate --noinput
-            # sudo docker-compose exec -T backend python manage.py collectstatic --noinput
+            echo REVIEW=False >> .env
+            
+            sudo docker-compose up -d
 
   # telegram_message:
   #   name: Send telegram message
