@@ -36,6 +36,7 @@ sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-
 sudo chmod +x /usr/local/bin/docker-compose
 ```
 * Локально откройте файл infra/nginx.conf и в строке server_name впишите IP вашего удаленного сервера
+
 * Скопируйте файлы docker-compose.yml и nginx.conf из директории infra на сервер:
 ```
 cd infra
