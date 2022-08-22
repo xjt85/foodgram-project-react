@@ -129,9 +129,9 @@ jobs:
             sudo docker rmi ${{ secrets.DOCKER_USER }}/foodgram_back
             sudo docker-compose up -d --build
 
-            sudo docker-compose exec -T backend python manage.py makemigrations --noinput
-            sudo docker-compose exec -T backend python manage.py migrate --noinput
-            sudo docker-compose exec -T backend python manage.py collectstatic --noinput
+            # sudo docker-compose exec -T backend python manage.py makemigrations --noinput
+            # sudo docker-compose exec -T backend python manage.py migrate --noinput
+            # sudo docker-compose exec -T backend python manage.py collectstatic --noinput
 
   # telegram_message:
   #   name: Send telegram message
