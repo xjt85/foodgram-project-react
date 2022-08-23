@@ -1,5 +1,5 @@
 # Проект Foodgram
-![workflow](https://github.com/xjt85/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)
+![workflow](https://github.com/xjt85/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg?branch=master&event=push)
 
 [![Python](https://img.shields.io/badge/-Python-464646?style=flat-square&logo=Python)](https://www.python.org/)
 [![Django](https://img.shields.io/badge/-Django-464646?style=flat-square&logo=Django)](https://www.djangoproject.com/)
@@ -36,6 +36,7 @@ sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-
 sudo chmod +x /usr/local/bin/docker-compose
 ```
 * Локально откройте файл infra/nginx.conf и в строке server_name впишите IP вашего удаленного сервера
+
 * Скопируйте файлы docker-compose.yml и nginx.conf из директории infra на сервер:
 ```
 cd infra
@@ -106,6 +107,6 @@ sudo docker-compose up -d --build
     - Проект будет доступен по заданому IP-адресу
 
 ## Проект в интернете
-Проект запущен и доступен по [адресу](http://51.250.30.21/recipes)
+Проект запущен и доступен по [адресу](http://51.250.30.21)
 
 ### Автор: Роман Чуклинов (xjavue).

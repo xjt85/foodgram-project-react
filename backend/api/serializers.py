@@ -75,6 +75,14 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
                     "ingredients": "Ингредиенты повторяются!"
                 }
             )
+        for item in ingredients:
+            if item['amount'] < 0:
+                raise serializers.ValidationError(
+                {
+                    "ingredients": "Количество ингредиента не может быть отрицательным!"
+                }
+            )
+
         tags = data['tags']
         if len(tags) != len(set(tags)):
             raise serializers.ValidationError(
